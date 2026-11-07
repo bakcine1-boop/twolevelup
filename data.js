@@ -98,7 +98,7 @@ window.EPISODES = [
 {
   no: 2, title: "혼자서는 경험치 0", date: "2026.11.07", thumb: "thumb_ep2.jpg",
   panels: [
-    { img: "ep2_cover.jpg", title: true },
+    { img: "ep2_cover_v2.jpg", title: true },
     { gap: "l" },
     { img: "ep2_01.jpg", els: [
       ["sfx", "top:8%;right:6%;--fs:40", "띠링♪"],
