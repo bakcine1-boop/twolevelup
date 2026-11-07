@@ -92,6 +92,10 @@ a{color:inherit;text-decoration:none}
 .lay-inset,.lay-left,.lay-right,.row .pn{outline:1px solid rgba(255,255,255,.14);outline-offset:-1px}
 .beat{height:120px;display:flex;align-items:center;justify-content:center;color:#8d98b3;font-size:clamp(14px,3.6vw,18px);letter-spacing:.3em}
 .beat.xl{height:200px}
+.chars{display:flex;gap:14px;overflow-x:auto;padding:6px 22px 18px;scrollbar-width:none}.chars::-webkit-scrollbar{display:none}
+.ch{flex:none;width:92px;text-align:center}.ch img{width:76px;height:76px;border-radius:50%;object-fit:cover;border:2px solid rgba(232,196,115,.5);display:block;margin:0 auto 7px}
+.ch .nm{font-size:13px;font-weight:700;line-height:1.3}.ch .tg{font-size:11px;color:#9fb0cf;margin-top:2px}.ch .ds{font-size:11px;color:#7d89a6;margin-top:4px;line-height:1.35}
+.teaser{margin-top:12px;font-size:14px;line-height:1.6;color:#e9dcc0;font-style:italic}
 .eptitle{position:absolute;left:0;right:0;top:3%;text-align:center;line-height:1.2}
 .eptitle .k{display:inline-block;font-weight:600;font-size:2.4cqw;letter-spacing:.2em;color:#9fd0ff;border:1px solid rgba(140,200,255,.65);padding:.6em 1.1em;background:rgba(20,40,90,.35)}
 .eptitle h2{margin:.35em 0 0;font-weight:900;font-size:10.4cqw;letter-spacing:-.02em;color:#fff;text-shadow:0 0 .3em rgba(255,200,90,.55),0 .05em .2em rgba(0,0,0,.6)}
@@ -116,7 +120,7 @@ a{color:inherit;text-decoration:none}
 </style></head>
 <body>
 <div id="app"></div>
-<script src="data.js?v=20261108a"></script>
+<script src="data.js?v=20261108v4b"></script>
 <script>
 const $app=document.getElementById('app');
 const S=window.SERIES, E=window.EPISODES;
@@ -131,6 +135,8 @@ function home(){
    <h1>둘이서만 <span>레벨업</span></h1><div class="tl">${S.tagline}</div></div></div>
   <div class="meta"><div class="tags">${S.genres.map(g=>`<span>#${g}</span>`).join('')}</div><p class="syn">${S.synopsis}</p></div>
   <div class="cta"><a class="btn p" href="#/ep/1">첫화 보기</a>${E.some(e=>readMark(e.no))?`<a class="btn s" href="#/ep/${cont.no}">이어 보기 · ${cont.no}화</a>`:''}</div>
+  <div class="sec"><span>등장인물</span><span>${(S.characters||[]).length}명</span></div>
+  <div class="chars">${(S.characters||[]).map(c=>`<div class="ch"><img loading="lazy" src="${c.img}" alt=""><div class="nm">${c.name}</div><div class="tg">${c.tag}</div><div class="ds">${c.desc}</div></div>`).join('')}</div>
   <div class="sec"><span>전체 ${E.length}화</span><span>매주 토요일</span></div>
   <ul class="eps">
    ${E.slice().reverse().map(e=>`<li><a href="#/ep/${e.no}"><div class="th"><img loading="lazy" src="${e.thumb}" alt=""></div><div><div class="et">${e.no}화 · ${e.title}${readMark(e.no)?'<span class="rd">읽음</span>':''}</div><div class="ed">${e.date}</div></div></a></li>`).join('')}
@@ -149,9 +155,9 @@ function viewer(no){
     if(p.text) return `<div class="pn txtp" style="height:${p.h||240}px">${p.text}</div>`;
     if(p.strip) return `<div class="pn" style="aspect-ratio:540/${p.strip}">${(p.els||[]).map(el).join('')}</div>`;
     if(p.beat!==undefined) return `<div class="beat ${p.size||''}">${p.beat||''}</div>`;
-    if(p.row) return `<div class="row ${p.lay?'lay-'+p.lay:''}">${p.row.map(q=>`<div class="pn"><img src="${q.img}" alt="" loading="lazy" decoding="async">${(q.els||[]).map(el).join('')}</div>`).join('')}</div>`;
+    if(p.row) return `<div class="row ${p.lay?'lay-'+p.lay:''}">${p.row.map(q=>`<div class="pn"><img src="${q.img}" alt="" loading="lazy" decoding="async" onerror="this.closest('.pn').style.display='none'">${(q.els||[]).map(el).join('')}</div>`).join('')}</div>`;
     const title=p.title?`<div class="eptitle"><span class="k">EPISODE ${String(ep.no).padStart(2,'0')}</span><h2>둘이서만 <span>레벨업</span></h2><div class="s">${ep.no}화 · ${ep.title}</div></div>`:'';
-    return `<div class="pn ${p.lay?'lay-'+p.lay:''}"><img src="${p.img}" alt="" loading="lazy" decoding="async">${title}${(p.els||[]).map(el).join('')}</div>`;
+    return `<div class="pn ${p.lay?'lay-'+p.lay:''}"><img src="${p.img}" alt="" loading="lazy" decoding="async" onerror="this.closest('.pn').style.display='none'">${title}${(p.els||[]).map(el).join('')}</div>`;
   }).join('');
   $app.innerHTML=`<div class="prog" id="prog"></div>
   <div class="bar" id="bar"><div class="in"><a class="bk" href="#/">‹</a><div class="tt">${ep.no}화 · ${ep.title}<small>${S.title}</small></div></div></div>
@@ -160,7 +166,7 @@ function viewer(no){
    <div class="card"><div class="k">오늘의 말씀</div><div class="v">${ep.card.verse}</div><div class="r">${ep.card.ref}</div></div>
    <div class="endbox">
      <button class="like ${liked(no)?'on':''}" id="like">${liked(no)?'♥':'♡'} 이 화 좋아요</button>
-     ${next?`<a class="nextc" href="#/ep/${next.no}"><div class="th"><img src="${next.thumb}" alt=""></div><div><div class="l">다음 화</div><div class="t">${next.no}화 · ${next.title}</div></div></a>`:`<div class="nextc"><div><div class="l">다음 화</div><div class="t">${no+1}화 · ${ep.next}</div><div class="l" style="margin-top:4px">다음 주 공개 예정</div></div></div>`}
+     ${next?`<a class="nextc" href="#/ep/${next.no}"><div class="th"><img src="${next.thumb}" alt=""></div><div><div class="l">다음 화</div><div class="t">${next.no}화 · ${next.title}</div></div></a>`:`<div class="nextc"><div><div class="l">다음 화</div><div class="t">${no+1}화 · ${ep.next}</div>${ep.teaser?`<div class="teaser">${ep.teaser}</div>`:''}<div class="l" style="margin-top:6px">다음 주 공개 예정</div></div></div>`}
    </div><div style="height:90px"></div></div>
   <div class="nav" id="nav"><div class="in"><a href="${prev?'#/ep/'+prev.no:'#'}" class="${prev?'':'dis'}">‹ 이전화</a><a href="#/">목록</a><a href="${next?'#/ep/'+next.no:'#'}" class="${next?'':'dis'}">다음화 ›</a></div></div>`;
   window.scrollTo(0,0);
