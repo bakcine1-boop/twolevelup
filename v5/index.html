@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#0b1020">
+<title>둘이서만 레벨업</title>
+<meta property="og:title" content="둘이서만 레벨업">
+<meta property="og:description" content="혼자서는 경험치 0. 그런데 우리 파티엔… 한 명이 더 있다?">
+<meta property="og:image" content="og.jpg">
+<link rel="preconnect" href="https://cdn.jsdelivr.net"><link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&family=Gowun+Batang:wght@700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0b1020;--bg2:#121a33;--line:rgba(255,255,255,.08);--gold:#e8c473;--blue:#6cc4ff;--txt:#e9edf6;--sub:#93a0bd}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--txt);font-family:Pretendard,system-ui,sans-serif}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:720px;margin:0 auto}
+/* ===== 홈 ===== */
+.hero{position:relative;aspect-ratio:3/4;max-height:78vh;width:100%;overflow:hidden}
+.hero img{width:100%;height:100%;object-fit:cover;object-position:center 22%;display:block}
+.hero:after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,rgba(11,16,32,0) 40%,rgba(11,16,32,.75) 78%,var(--bg))}
+.hero .info{position:absolute;left:0;right:0;bottom:0;padding:0 22px 20px;z-index:2}
+.badge{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.08em;color:#9fd0ff;border:1px solid rgba(140,200,255,.55);padding:4px 9px;border-radius:3px;background:rgba(20,40,90,.45)}
+.hero h1{margin:10px 0 6px;font-size:36px;font-weight:900;letter-spacing:-.02em;text-shadow:0 2px 14px rgba(0,0,0,.6)}
+.hero h1 span{color:#ffd77a}
+.hero .tl{font-size:15px;color:#d8deeb;line-height:1.5}
+.meta{padding:16px 22px 6px}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.tags span{font-size:12.5px;color:var(--sub);background:var(--bg2);padding:5px 10px;border-radius:20px}
+.syn{font-size:14.5px;line-height:1.7;color:#c5cde0;margin:0}
+.cta{display:flex;gap:10px;padding:18px 22px}
+.btn{flex:1;text-align:center;padding:14px 0;border-radius:10px;font-weight:800;font-size:15.5px}
+.btn.p{background:linear-gradient(90deg,#3a7bff,#5fb6ff);color:#fff;box-shadow:0 6px 18px rgba(60,130,255,.35)}
+.btn.s{background:var(--bg2);color:#dfe6f5}
+.sec{padding:10px 22px 4px;font-size:13px;color:var(--sub);display:flex;justify-content:space-between;border-top:8px solid #070b17}
+.eps{list-style:none;margin:0;padding:0 0 10px}
+.eps li a{display:flex;gap:14px;align-items:center;padding:12px 22px;border-bottom:1px solid var(--line)}
+.eps .th{width:104px;aspect-ratio:4/3;border-radius:6px;overflow:hidden;flex:none;background:#000}
+.eps .th img{width:100%;height:100%;object-fit:cover;display:block}
+.eps .et{font-size:15.5px;font-weight:700}
+.eps .ed{font-size:12.5px;color:var(--sub);margin-top:5px}
+.eps .rd{font-size:11px;color:#7fd0ff;margin-left:6px}
+.eps .soon{opacity:.45}
+.foot{padding:26px 22px 60px;font-size:12px;color:#66728f;line-height:1.7;text-align:center}
+/* ===== 뷰어 ===== */
+.bar{position:fixed;top:0;left:0;right:0;z-index:20;background:rgba(11,16,32,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);transition:transform .25s}
+.bar.hide{transform:translateY(-100%)}
+.bar .in{max-width:720px;margin:0 auto;display:flex;align-items:center;height:52px;padding:0 8px}
+.bar .bk{width:44px;height:44px;display:flex;align-items:center;justify-content:center;font-size:22px}
+.bar .tt{flex:1;font-size:15px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar .tt small{color:var(--sub);font-weight:500;margin-left:6px}
+.prog{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,#4f8dff,#ffd77a);z-index:21;width:0}
+.viewer{padding-top:52px}
+.pn{position:relative;width:100%;line-height:0;container-type:inline-size}
+.pn img{width:100%;display:block}
+.gap{height:44px}.gap.s{height:20px}.gap.l{height:96px}
+.txtp{display:flex;align-items:center;justify-content:center;font-size:clamp(18px,4.2vw,26px);font-weight:300;letter-spacing:.5em;color:#cfd7ea;line-height:1}
+.el{position:absolute;line-height:1.4;letter-spacing:-.01em;font-size:calc(var(--fs,20) * .1852cqw * var(--k,1));word-break:keep-all}
+.b{background:#fff;color:#141414;font-weight:600;padding:.6em .9em;border-radius:1.2em;max-width:62%;box-shadow:0 .15em .5em rgba(0,0,0,.35)}
+.b:after{content:"";position:absolute;width:0;height:0;border:.55em solid transparent}
+.b.td:after{bottom:-.95em;border-top:.6em solid #fff;border-bottom:0}
+.b.tu:after{top:-.95em;border-bottom:.6em solid #fff;border-top:0}
+.b.tl:after{left:1.3em}.b.tr:after{right:1.3em}.b.c.tu:after,.b.c.td:after{left:50%;margin-left:-.55em}
+.b.dash{border:.1em dashed #9aa3b5}
+.b.dark{background:#141824;color:#f2f2f2;border:.06em solid #ff6b6b}.b.dark.td:after{border-top-color:#141824}.b.dark.tu:after{border-bottom-color:#141824}.b.dark .n{color:#ff8f8f}
+.n{display:block;font-size:.65em;font-weight:700;color:#7a8296;margin-bottom:.1em;letter-spacing:0}
+.sh{background:#fff;color:#111;font-weight:900;font-size:calc(var(--fs,30) * .1852cqw * var(--k,1));padding:.55em .8em;text-align:center;clip-path:polygon(0 12%,8% 0,20% 10%,34% 0,48% 9%,62% 0,76% 10%,90% 0,100% 14%,96% 36%,100% 58%,94% 78%,100% 100%,80% 90%,62% 100%,46% 90%,30% 100%,16% 90%,0 100%,4% 74%,0 52%,5% 32%);filter:drop-shadow(0 .1em .2em rgba(0,0,0,.45))}
+.cap{background:rgba(8,10,18,.84);color:#efe6d2;font-weight:500;font-size:calc(var(--fs,18) * .1852cqw * var(--k,1));padding:.55em .9em;border-left:.17em solid var(--gold);max-width:72%}
+.cap .hl{color:#ff9a9a;font-weight:700}
+.sm{font-size:.8em;opacity:.85}
+.mono{background:#f5f1e8;color:#222;font-weight:600;font-size:calc(var(--fs,19) * .1852cqw * var(--k,1));padding:.58em .9em;border-radius:.2em;max-width:62%;box-shadow:0 .15em .5em rgba(0,0,0,.4)}
+.wh{background:rgba(255,255,255,.9);color:#333;font-weight:500;font-style:italic;font-size:calc(var(--fs,18) * .1852cqw * var(--k,1));padding:.55em .9em;border-radius:1.2em;border:.1em dashed #9aa3b5;max-width:60%}
+.sys{background:rgba(7,22,52,.86);border:.08em solid var(--blue);box-shadow:0 0 .7em rgba(80,170,255,.65),inset 0 0 .9em rgba(80,170,255,.18);color:#e3f4ff;font-weight:600;font-size:calc(var(--fs,18) * .1852cqw * var(--k,1));padding:.6em .95em;max-width:88%;border-radius:.15em}
+.sys b{color:#8fd6ff;font-weight:800}
+.sys .sub{color:#b8dcff}
+.sys.red{border-color:#ff6b6b;box-shadow:0 0 .7em rgba(255,90,90,.6),inset 0 0 .9em rgba(255,90,90,.15)}.sys.red b{color:#ff9a9a}
+.sys.err{border-color:#ffd166;box-shadow:0 0 .8em rgba(255,200,90,.7)}.sys.err b{color:#ffd98a}
+.g{color:#ffd98a}
+.sfx{font-weight:900;font-size:calc(var(--fs,46) * .1852cqw * var(--k,1));color:#bfe9ff;-webkit-text-stroke:.045em #0b2b55;text-shadow:0 0 .3em rgba(110,200,255,.9);transform:rotate(-8deg) skewX(-8deg);letter-spacing:.04em}
+.verse{font-family:'Gowun Batang',serif;font-weight:700;color:#fff1c9;font-size:calc(var(--fs,27) * .1852cqw * var(--k,1));text-align:center;text-shadow:0 .08em .12em rgba(70,35,0,.95),0 0 .4em rgba(120,60,0,.8),0 0 1em rgba(255,180,60,.7)}
+.note{font-family:'Nanum Pen Script',cursive;color:#3a3330;font-size:calc(var(--fs,33) * .1852cqw * var(--k,1));line-height:1.05;transform:rotate(-2.5deg)}
+.news{background:linear-gradient(90deg,#c8102e,#8e0b21);color:#fff;font-weight:700;font-size:calc(var(--fs,16) * .1852cqw * var(--k,1));padding:.55em .9em;line-height:1.3}
+.news b{background:#fff;color:#c8102e;padding:.05em .4em;margin-right:.5em;border-radius:.15em}
+.c{left:50%;transform:translateX(-50%)}
+
+.row{display:flex;gap:10px;padding:0 0;align-items:flex-start}
+.row .pn{flex:1;--k:1.9}
+.lay-inset{width:86%;margin:0 auto;--k:1.16}
+.lay-left{width:72%;margin-right:auto;margin-left:4%;--k:1.39}
+.lay-right{width:72%;margin-left:auto;margin-right:4%;--k:1.39}
+.lay-inset,.lay-left,.lay-right,.row .pn{outline:1px solid rgba(255,255,255,.14);outline-offset:-1px}
+.beat{height:120px;display:flex;align-items:center;justify-content:center;color:#8d98b3;font-size:clamp(14px,3.6vw,18px);letter-spacing:.3em}
+.beat.xl{height:200px}
+.chars{display:flex;gap:14px;overflow-x:auto;padding:6px 22px 18px;scrollbar-width:none}.chars::-webkit-scrollbar{display:none}
+.ch{flex:none;width:92px;text-align:center}.ch img{width:76px;height:76px;border-radius:50%;object-fit:cover;border:2px solid rgba(232,196,115,.5);display:block;margin:0 auto 7px}
+.ch .nm{font-size:13px;font-weight:700;line-height:1.3}.ch .tg{font-size:11px;color:#9fb0cf;margin-top:2px}.ch .ds{font-size:11px;color:#7d89a6;margin-top:4px;line-height:1.35}
+.teaser{margin-top:12px;font-size:14px;line-height:1.6;color:#e9dcc0;font-style:italic}
+.eptitle{position:absolute;left:0;right:0;top:3%;text-align:center;line-height:1.2}
+.eptitle .k{display:inline-block;font-weight:600;font-size:2.4cqw;letter-spacing:.2em;color:#9fd0ff;border:1px solid rgba(140,200,255,.65);padding:.6em 1.1em;background:rgba(20,40,90,.35)}
+.eptitle h2{margin:.35em 0 0;font-weight:900;font-size:10.4cqw;letter-spacing:-.02em;color:#fff;text-shadow:0 0 .3em rgba(255,200,90,.55),0 .05em .2em rgba(0,0,0,.6)}
+.eptitle h2 span{color:#ffd77a}
+.eptitle .s{margin-top:.6em;font-size:4.2cqw;font-weight:700;color:#f3ead6;text-shadow:0 .1em .3em rgba(0,0,0,.7)}
+.card{background:radial-gradient(ellipse at 50% 0%,rgba(255,206,110,.28),rgba(11,16,32,0) 60%),#0e1428;border-top:1px solid rgba(232,196,115,.4);border-bottom:1px solid rgba(232,196,115,.4);padding:56px 30px 52px;text-align:center}
+.card .k{font-size:13px;letter-spacing:.34em;color:var(--gold);font-weight:700}
+.card .v{font-family:'Gowun Batang',serif;font-weight:700;font-size:clamp(17px,4.4vw,24px);line-height:1.75;color:#fff4d6;margin:22px 0 18px;text-shadow:0 0 18px rgba(255,190,80,.35)}
+.card .v .rf{font-family:Pretendard,sans-serif;font-size:.62em;color:#cdb98a;font-weight:600}
+.card .r{font-size:15px;color:#cdb98a;font-weight:600}
+.endbox{padding:30px 22px 20px;text-align:center}
+.like{display:inline-flex;align-items:center;gap:8px;padding:12px 22px;border-radius:30px;border:1px solid rgba(255,255,255,.18);font-weight:700;font-size:15px;background:transparent;color:#fff;cursor:pointer}
+.like.on{border-color:#ff6b8a;color:#ff8fa7}
+.nextc{margin:26px 0 0;padding:18px;border-radius:12px;background:var(--bg2);text-align:left;display:flex;align-items:center;gap:14px}
+.nextc .th{width:86px;aspect-ratio:4/3;border-radius:6px;overflow:hidden;flex:none;background:#000}.nextc .th img{width:100%;height:100%;object-fit:cover}
+.nextc .l{font-size:12px;color:var(--sub)}.nextc .t{font-size:16px;font-weight:800;margin-top:4px}
+.nav{position:fixed;bottom:0;left:0;right:0;z-index:20;background:rgba(11,16,32,.94);backdrop-filter:blur(8px);border-top:1px solid var(--line);transition:transform .25s;padding-bottom:env(safe-area-inset-bottom)}
+.nav.hide{transform:translateY(100%)}
+.nav .in{max-width:720px;margin:0 auto;display:flex;height:54px}
+.nav a{flex:1;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#dfe6f5}
+.nav a.dis{opacity:.3;pointer-events:none}
+</style></head>
+<body>
+<div id="app"></div>
+<script src="data.js?v=v5a"></script>
+<script>
+const $app=document.getElementById('app');
+const S=window.SERIES, E=window.EPISODES;
+const liked=n=>localStorage.getItem('dl_like_'+n)==='1';
+const readMark=n=>localStorage.getItem('dl_read_'+n)==='1';
+function home(){
+  document.title=S.title;
+  const last=E.findIndex(e=>!readMark(e.no)); const cont=last<0?E[E.length-1]:E[Math.max(0,last)];
+  $app.innerHTML=`<div class="wrap">
+  <div class="hero"><img src="hero.jpg" alt="">
+   <div class="info"><span class="badge">신앙 판타지 · 연재 중</span>
+   <h1>둘이서만 <span>레벨업</span></h1><div class="tl">${S.tagline}</div></div></div>
+  <div class="meta"><div class="tags">${S.genres.map(g=>`<span>#${g}</span>`).join('')}</div><p class="syn">${S.synopsis}</p></div>
+  <div class="cta"><a class="btn p" href="#/ep/1">첫화 보기</a>${E.some(e=>readMark(e.no))?`<a class="btn s" href="#/ep/${cont.no}">이어 보기 · ${cont.no}화</a>`:''}</div>
+  <div class="sec"><span>등장인물</span><span>${(S.characters||[]).length}명</span></div>
+  <div class="chars">${(S.characters||[]).map(c=>`<div class="ch"><img loading="lazy" src="${c.img}" alt=""><div class="nm">${c.name}</div><div class="tg">${c.tag}</div><div class="ds">${c.desc}</div></div>`).join('')}</div>
+  <div class="sec"><span>전체 ${E.length}화</span><span>매주 토요일</span></div>
+  <ul class="eps">
+   ${E.slice().reverse().map(e=>`<li><a href="#/ep/${e.no}"><div class="th"><img loading="lazy" src="${e.thumb}" alt=""></div><div><div class="et">${e.no}화 · ${e.title}${readMark(e.no)?'<span class="rd">읽음</span>':''}</div><div class="ed">${e.date}</div></div></a></li>`).join('')}
+   <li><a class="soon"><div class="th"></div><div><div class="et">${E.length+1}화 · ${E[E.length-1].next}</div><div class="ed">다음 주 공개 예정</div></div></a></li>
+  </ul>
+  <div class="foot">${S.credit}<br>이 작품의 그림은 AI 도구로 제작했고, 실제 이름과 얼굴은 본인 동의를 받아 사용했습니다.<br>성경 본문: 개역개정</div></div>`;
+  window.scrollTo(0,0);
+}
+function el(e){const [cls,st,html]=e;return `<div class="el ${cls}" style="${st}">${html}</div>`}
+function viewer(no){
+  const ep=E.find(e=>e.no===no); if(!ep) return home();
+  document.title=`${ep.no}화 ${ep.title} · ${S.title}`;
+  const prev=E.find(e=>e.no===no-1), next=E.find(e=>e.no===no+1);
+  const body=ep.panels.map(p=>{
+    if(p.gap!==undefined) return `<div class="gap ${p.gap}"></div>`;
+    if(p.text) return `<div class="pn txtp" style="height:${p.h||240}px">${p.text}</div>`;
+    if(p.strip) return `<div class="pn" style="aspect-ratio:540/${p.strip}">${(p.els||[]).map(el).join('')}</div>`;
+    if(p.beat!==undefined) return `<div class="beat ${p.size||''}">${p.beat||''}</div>`;
+    if(p.row) return `<div class="row ${p.lay?'lay-'+p.lay:''}">${p.row.map(q=>`<div class="pn"><img src="${q.img}" alt="" loading="lazy" decoding="async" onerror="this.closest('.pn').style.display='none'">${(q.els||[]).map(el).join('')}</div>`).join('')}</div>`;
+    const title=p.title?`<div class="eptitle"><span class="k">EPISODE ${String(ep.no).padStart(2,'0')}</span><h2>둘이서만 <span>레벨업</span></h2><div class="s">${ep.no}화 · ${ep.title}</div></div>`:'';
+    return `<div class="pn ${p.lay?'lay-'+p.lay:''}"><img src="${p.img}" alt="" loading="lazy" decoding="async" onerror="this.closest('.pn').style.display='none'">${title}${(p.els||[]).map(el).join('')}</div>`;
+  }).join('');
+  $app.innerHTML=`<div class="prog" id="prog"></div>
+  <div class="bar" id="bar"><div class="in"><a class="bk" href="#/">‹</a><div class="tt">${ep.no}화 · ${ep.title}<small>${S.title}</small></div></div></div>
+  <div class="wrap viewer">${body}
+   <div class="gap l"></div>
+   <div class="card"><div class="k">오늘의 말씀</div><div class="v">${ep.card.verse}</div><div class="r">${ep.card.ref}</div></div>
+   <div class="endbox">
+     <button class="like ${liked(no)?'on':''}" id="like">${liked(no)?'♥':'♡'} 이 화 좋아요</button>
+     ${next?`<a class="nextc" href="#/ep/${next.no}"><div class="th"><img src="${next.thumb}" alt=""></div><div><div class="l">다음 화</div><div class="t">${next.no}화 · ${next.title}</div></div></a>`:`<div class="nextc"><div><div class="l">다음 화</div><div class="t">${no+1}화 · ${ep.next}</div>${ep.teaser?`<div class="teaser">${ep.teaser}</div>`:''}<div class="l" style="margin-top:6px">다음 주 공개 예정</div></div></div>`}
+   </div><div style="height:90px"></div></div>
+  <div class="nav" id="nav"><div class="in"><a href="${prev?'#/ep/'+prev.no:'#'}" class="${prev?'':'dis'}">‹ 이전화</a><a href="#/">목록</a><a href="${next?'#/ep/'+next.no:'#'}" class="${next?'':'dis'}">다음화 ›</a></div></div>`;
+  window.scrollTo(0,0);
+  document.getElementById('like').onclick=function(){const on=!liked(no);localStorage.setItem('dl_like_'+no,on?'1':'0');this.classList.toggle('on',on);this.innerHTML=(on?'♥':'♡')+' 이 화 좋아요'};
+  let ly=0; const bar=document.getElementById('bar'),nav=document.getElementById('nav'),prog=document.getElementById('prog');
+  window.onscroll=()=>{const y=scrollY,h=document.documentElement.scrollHeight-innerHeight;prog.style.width=(h>0?Math.min(100,y/h*100):0)+'%';
+    const down=y>ly&&y>80;bar.classList.toggle('hide',down);nav.classList.toggle('hide',down&&y<h-200);ly=y;
+    if(y>h*0.85) localStorage.setItem('dl_read_'+no,'1');};
+}
+function route(){const m=location.hash.match(/#\/ep\/(\d+)/);window.onscroll=null;m?viewer(+m[1]):home();}
+addEventListener('hashchange',route);route();
+</script>
+</body></html>
